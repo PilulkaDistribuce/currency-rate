@@ -1,4 +1,17 @@
 {
+  "name": "pilulka/currency-rate",
+  "description": "Currency rate converter.",
+  "keywords": ["currency", "exchange", "cnb", "cnbapi"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin Krizan",
+      "email": "martin.krizan@pilulka.cz"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
   "autoload": {
     "psr-4": {
       "Pilulka\\CurrencyRate\\": "src/"
@@ -6,8 +19,5 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
-  },
-  "require": {
-    "symfony/var-dumper": "^3.3"
   }
 }
