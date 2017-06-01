@@ -39,8 +39,10 @@ class CnbSource implements RateSource
      */
     private function loadSource(\DateTime $date)
     {
-        $this->storeCacheFile($date);
-        $this->loadDataForYear($date);
+        if(!isset($this->data[$date->format('Y')])) {
+            $this->storeCacheFile($date);
+            $this->loadDataForYear($date);
+        }
     }
 
     /**
@@ -53,7 +55,7 @@ class CnbSource implements RateSource
         if ($date->format('Y') == (new \DateTime())->format('Y')) {
             return $this->validateCacheFileOfThisYear($date);
         }
-        return false;
+        return true;
     }
 
     /**
