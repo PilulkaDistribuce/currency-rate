@@ -87,10 +87,13 @@ class CnbSource implements RateSource
     private function storeCacheFile(\DateTime $date)
     {
         if (!$this->isFileValid($date)) {
-            $success = file_put_contents(
-                $this->cacheFilePath($date),
-                file_get_contents($this->sourceUrl($date))
-            );
+            $success = file_get_contents($this->sourceUrl($date));
+            if($success) {
+                $success = file_put_contents(
+                    $this->cacheFilePath($date),
+                    $success
+                );
+            }
             if ($success === FALSE)
                 throw new RuntimeException(
                     "It was to possible to write content " .
