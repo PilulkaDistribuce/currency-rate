@@ -30,7 +30,7 @@ class CnbSource implements RateSource
         $to = $currencyTo == CurrencyRate::CUR_CZK
             ? 1
             : $row[$currencyTo];
-        return $from / $to;
+        return $to ? $from / $to : 0;
     }
 
 
@@ -141,11 +141,13 @@ class CnbSource implements RateSource
     {
         $row = null;
         $day = $date->format('z') + 1;
-        foreach ($this->data[$date->format('Y')] as $dayInYear => $item) {
-            if ($row && $dayInYear > $day) break;
-            $row = $item;
-            if ($day <= $dayInYear) {
-                $day = $dayInYear;
+        if(isset($this->data[$date->format('Y')]) && $this->data[$date->format('Y')]) {
+            foreach ($this->data[$date->format('Y')] as $dayInYear => $item) {
+                if ($row && $dayInYear > $day) break;
+                $row = $item;
+                if ($day <= $dayInYear) {
+                    $day = $dayInYear;
+                }
             }
         }
         return $row;
