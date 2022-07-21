@@ -2,6 +2,7 @@
 
 namespace Pilulka\CurrencyRate;
 
+use DateTime;
 use Pilulka\CurrencyRate\Exception\InvalidArgumentException;
 use Pilulka\CurrencyRate\Source\CnbSource;
 
@@ -67,17 +68,21 @@ class CurrencyRate
         return array_values($reflection->getConstants());
     }
 
-    public function getRateOf($currencyCode, \DateTime $date = null)
+    public function getRateOf(string $currencyFrom, ?DateTime $date = null, ?string $currencyTo = null)
     {
         if (!isset($date)) {
-            $date = new \DateTime();
+            $date = new DateTime();
         }
-        if($date > (new \DateTime())) {
+        if($date > (new DateTime())) {
             throw new InvalidArgumentException(
                 'We cannot guess future value of currency.'
             );
         }
-        return $this->rateSource->rate($currencyCode, $this->currencyCode, $date);
+        if ($currencyTo !== null) {
+            return $this->rateSource->rate($currencyFrom, $currencyTo, $date);
+        }
+
+        return $this->rateSource->rate($currencyFrom, $this->currencyCode, $date);
     }
 
     /**
